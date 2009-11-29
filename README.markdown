@@ -73,27 +73,27 @@ is an alias for `$('input,select,textarea,fileupload').netchanger(options);`
 
 * **jQuery.fn.netchange(handler)**:  When passed a handler, binds handler to the `netchange` event on matched selection.  When not passed handler, artificially triggers `netchange` event on matched selection.
 
-    $('input').netchange(function(){
-        this.addClass('modified');        
-    });
+        $('input').netchange(function(){
+            this.addClass('modified');        
+        });
     
-    $('input').netchange();
+        $('input').netchange();
 
 * **jQuery.fn.revertchange(handler)**:  When passed a handler, binds handler to the `revertchange` event on matched selection.  When not passed handler, changes the current value of matched controls back to their initial state and raises `revertchange` event on any that had a difference between their current and initial values.
 
-    $('input').revertchange(function(){
-        this.removeClass('modified');        
-    });
+        $('input').revertchange(function(){
+            this.removeClass('modified');        
+        });
 
-    $('input').revertchange();
+        $('input').revertchange();
 
 * **jQuery.fn.refreshchange(handler)**:  When passed a handler, binds handler to the `refreshchange` event on matched selection.  When not passed handler, promotes the current value of matched controls to be the new initial reference value and raises `refreshchange` event on any that had a difference between their current and initial values.
 
-    $('input').refreshchange(function(){
-        this.removeClass('modified');        
-    });
+        $('input').refreshchange(function(){
+            this.removeClass('modified');        
+        });
 
-    $('input').refreshchange();
+        $('input').refreshchange();
     
 Notes
 -----
