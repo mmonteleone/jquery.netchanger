@@ -60,18 +60,18 @@
                 if(existingValue === notdefined) {
                     // capture current (initial) value
                     elm.data(valueKey,value(elm));
-                    elm.bind(settings.events.replace(/,/g,' '), function(){
-                        // bind to all specified events
-                        // to check the current value and raise custom events
-                        // when necessary
-                        var initialValue = elm.data(valueKey);
-                        if(value(elm) !== initialValue) {
-                            elm.trigger('netchange');
-                        }
-                        if(value(elm) === initialValue) {
-                            elm.trigger('revertchange');
-                        }
-                    });
+                       .bind(settings.events.replace(/,/g,' '), function(){
+                            // bind to all specified events
+                            // to check the current value and raise custom events
+                            // when necessary
+                            var initialValue = elm.data(valueKey);
+                            if(value(elm) !== initialValue) {
+                                elm.trigger('netchange');
+                            }
+                            if(value(elm) === initialValue) {
+                                elm.trigger('revertchange');
+                            }
+                        });
                 }
             });
         },
