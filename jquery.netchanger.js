@@ -50,30 +50,53 @@
          * @param {Object} options optional object literal options
          */
         netchanger: function(options){
-            var settings = $.extend({}, $.netchanger.defaults, options || {});
             
-            return this.each(function(){    
-                var elm = $(this);
-                var existingValue = elm.data(valueKey);
-                // only set up netchanger on matched inputs that 
-                // haven't already had netchanger applied to them
-                if(existingValue === notdefined) {
-                    // capture current (initial) value
-                    elm.data(valueKey,value(elm))
-                       .bind(settings.events.replace(/,/g,' '), function(){
-                            // bind to all specified events
-                            // to check the current value and raise custom events
-                            // when necessary
-                            var initialValue = elm.data(valueKey);
-                            if(value(elm) !== initialValue) {
-                                elm.trigger('netchange');
-                            }
-                            if(value(elm) === initialValue) {
-                                elm.trigger('revertchange');
-                            }
-                        });
-                }
+            // return this.each(function(){    
+            //     var elm = $(this);
+            //     var existingValue = elm.data(valueKey);
+            //     // only set up netchanger on matched inputs that 
+            //     // haven't already had netchanger applied to them
+            //     if(existingValue === notdefined) {
+            //         // capture current (initial) value
+            //         elm.data(valueKey,value(elm))
+            //            .bind(settings.events.replace(/,/g,' '), function(){
+            //                 // bind to all specified events
+            //                 // to check the current value and raise custom events
+            //                 // when necessary
+            //                 var initialValue = elm.data(valueKey);
+            //                 if(value(elm) !== initialValue) {
+            //                     elm.trigger('netchange');
+            //                 }
+            //                 if(value(elm) === initialValue) {
+            //                     elm.trigger('revertchange');
+            //                 }
+            //             });
+            //     }
+            // });
+            
+            var settings = $.extend({}, $.netchanger.defaults, options || {}),
+                selection = this,
+                elm, 
+                initialValue;
+            var binder = settings.live ? 'live' : 'bind';
+
+            selection[binder](settings.live ? 'focusin' : 'focus', function(){
+                elm = $(this);
+                if(elm.data(valueKey) === undefined) {
+                    elm.data(valueKey, value(elm));
+                }                    
             });
+            
+            $.each(settings.events.split(','), function(){
+                selection[binder](String(this), function(e){
+                    elm = $(e.target);
+                    initialValue = elm.data(valueKey);
+                    if(value(elm) !== initialValue) { elm.trigger('netchange'); }
+                    if(value(elm) === initialValue) { elm.trigger('revertchange'); }                    
+                });
+            });
+            
+            return selection;
         },
             
         /**
@@ -154,6 +177,7 @@
     $.extend($.netchanger,{
         version: '0.9.0',
         defaults: {
+            live: false,
             selector: 'input,select,textarea,fileupload',
             events: 'change,keyup,paste'
         }

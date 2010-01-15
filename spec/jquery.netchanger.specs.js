@@ -1,3 +1,7 @@
+var live = false; //jQuery.fn.jquery === '1.4';
+var focusEvent = live ? 'focusin' : 'focus';
+
+
 // shortcut for building up and breaking down stub forms
 var FormBuilder = {
     clear: function(){
@@ -10,6 +14,8 @@ var FormBuilder = {
     },
     addRadioInput: function(name, value, checked){
         var input = $('<input type="radio" id="' + name + '" name="' + name + '" value="' + value + '" ' + (checked ? 'checked="checked"' : '') + ' />');
+        // webkit bug where cloneNode(true) doesn't copy 'checked' attribute
+        // if(checked) { input.attr('checked', 'checked'); }
         $('div#testbed form').append(input);
         return input;
     },
@@ -77,7 +83,8 @@ QUnit.specify("jQuery.netchanger", function() {
         before(function(){
             opts = {
                 selector: 'input,select,textarea,fileupload',
-                events: 'change,keyup,paste'
+                events: 'change,keyup,paste',
+                live: live
             };            
         });
 
@@ -98,6 +105,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
                     .change();
                 assert(raised).isTrue();
@@ -108,6 +116,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
                     .val('textval1')
                     .change();
@@ -119,7 +128,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
+                    .change()
                     .val('textval1')
                     .change();
                 assert(raised).isTrue();                    
@@ -130,6 +141,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
                     .change();
                 assert(raised).isFalse();                    
@@ -140,6 +152,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
                     .refreshchange()
                     .change();
@@ -151,7 +164,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
+                    .change()
                     .val('textval1')
                     .refreshchange()
                     .change();
@@ -182,6 +197,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
                     .val('textval1')
                     .change();
@@ -193,7 +209,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
+                    .change()
                     .val('textval1')
                     .change();
                 assert(raised).isTrue();                    
@@ -204,6 +222,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
                     .change();
                 assert(raised).isFalse();                    
@@ -214,6 +233,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;
                     })
+                    .trigger(focusEvent)                    
                     .val('textval2')
                     .refreshchange()
                     .change();
@@ -225,7 +245,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('textval2')
+                    .change()
                     .val('textval1')
                     .refreshchange()
                     .change();
@@ -246,6 +268,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .change();
                 assert(raised).isTrue();
@@ -256,6 +279,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .attr('checked','checked')
                     .change();
@@ -267,7 +291,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
+                    .change()
                     .attr('checked','checked')
                     .change();
                 assert(raised).isTrue();                    
@@ -278,6 +304,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)                    
                     .removeAttr('checked')
                     .change();
                 assert(raised).isFalse();                    
@@ -288,6 +315,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .refreshchange()
                     .change();
@@ -299,7 +327,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
+                    .change()
                     .attr('checked','checked')
                     .refreshchange()
                     .change();
@@ -320,6 +350,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .change();
                 assert(raised).isTrue();
@@ -330,6 +361,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .attr('checked','checked')
                     .change();
@@ -341,7 +373,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
+                    .change()
                     .attr('checked','checked')
                     .change();
                 assert(raised).isTrue();                    
@@ -352,6 +386,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .change();
                 assert(raised).isFalse();                    
@@ -362,6 +397,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
                     .refreshchange()
                     .change();
@@ -373,7 +409,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .removeAttr('checked')
+                    .change()
                     .attr('checked','checked')
                     .refreshchange()
                     .change();
@@ -394,6 +432,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('b')
                     .change();
                 assert(raised).isTrue();
@@ -404,6 +443,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('netchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('b')
                     .val('c')
                     .change();
@@ -415,7 +455,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('b')
+                    .change()
                     .val('c')
                     .change();
                 assert(raised).isTrue();                    
@@ -426,6 +468,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('revertchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('b')
                     .change();
                 assert(raised).isFalse();                    
@@ -436,6 +479,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;
                     })
+                    .trigger(focusEvent)
                     .val('b')
                     .refreshchange()
                     .change();
@@ -447,7 +491,9 @@ QUnit.specify("jQuery.netchanger", function() {
                     .bind('refreshchange', function(){
                         raised = true;                            
                     })
+                    .trigger(focusEvent)
                     .val('b')
+                    .change()
                     .val('c')
                     .refreshchange()
                     .change();
@@ -502,13 +548,15 @@ QUnit.specify("jQuery.netchanger", function() {
                 $.netchanger();
                 
                 $('#text1').val('valnew');                
-                $('input').refreshchange();                
+                $('input[type="text"]').refreshchange();                
                 
                 var raisedCount = 0;                
+                console.log($('input[type="text"]').length);
                 $('input[type="text"]')
                     .bind('netchange', function(){
                         raisedCount++;
                     })
+                    .trigger(focusEvent)                    
                     .val('valnew')
                     .change();
                                                 
@@ -524,7 +572,7 @@ QUnit.specify("jQuery.netchanger", function() {
                     raisedCount++;
                 });
                 
-                $('#text1').val('valnew');                
+                $('#text1').trigger(focusEvent).val('valnew');                
                 $('input').refreshchange();
                 
                 assert(raisedCount).equals(1);                
@@ -560,7 +608,7 @@ QUnit.specify("jQuery.netchanger", function() {
                 FormBuilder.addTextInput('text2','val2');
                 $.netchanger();
 
-                $('#text1').val('newval');
+                $('#text1').trigger(focusEvent).val('newval');
                 $('input').revertchange();
                 
                 assert($('#text1').val()).equals('val1');
@@ -571,7 +619,7 @@ QUnit.specify("jQuery.netchanger", function() {
                 FormBuilder.addTextInput('text2','val2');
                 $.netchanger();
 
-                $('#text1').val('newval');
+                $('#text1').trigger(focusEvent).val('newval');
                 
                 var raisedCount = 0;
                 $('input')

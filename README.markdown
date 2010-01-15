@@ -3,13 +3,15 @@ jQuery.netchanger
 simple extensions to the DOM onchange event  
 [http://github.com/mmonteleone/jquery.netchanger][0]
 
+**Support for jQuery's 1.4's now usable live() event coming soon.**
+
 What?
 ----
 
 The native `onchange` DOM event fires when a control loses the input focus and its value has been modified since gaining focus, and is useful for tracking changes to a form.  While useful, it has limitations:  
 
-* It fires whether the new value was genuinely different than when it gained focus or not
-  * For example, a user who clicks into an empty text input, types some text, deletes it, and unfocuses still triggers an "onchange"
+* It only knows if a change is relative to when the input gained focus, not relative to other events, like when the page loaded.
+  * For example, a user who clicks into a populated empty text input, changes it, blurs, then focuses, and changes it back... netchanger knows that a real change took place and was subsequently reverted.
 * It only fires when the control loses focus
 
 `jQuery.netchanger` is a simple jQuery plugin which provides extra events for detecting when a control's value has noticeably changed relative to its original value or when it has returned back to its original value from some other value.  Moreover, these new events are raised not only when the control loses focus, but also as the value changes while it still has focus.  This can be useful for various progressive form enhancements, such as visibly styling modified but not-yet-saved fields.
