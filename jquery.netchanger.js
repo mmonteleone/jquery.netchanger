@@ -59,7 +59,7 @@
                 // haven't already had netchanger applied to them
                 if(existingValue === notdefined) {
                     // capture current (initial) value
-                    elm.data(valueKey,value(elm));
+                    elm.data(valueKey,value(elm))
                        .bind(settings.events.replace(/,/g,' '), function(){
                             // bind to all specified events
                             // to check the current value and raise custom events
