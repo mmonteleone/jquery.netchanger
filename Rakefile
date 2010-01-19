@@ -27,7 +27,7 @@ task :build => [:clean] do
   # build dist and lib directories
   mkdir 'dist'
   mkdir 'dist/lib'
-  # mkdir 'dist/example'
+  mkdir 'dist/example'
 
   # copy src
   cp 'jquery.netchanger.js', 'dist/jquery.netchanger.js'
@@ -36,10 +36,10 @@ task :build => [:clean] do
   cp 'README.markdown', 'dist/README.markdown'
   
   # copy examples
-  # cp 'example/example1.html', 'dist/example/example1.html'
+  cp 'example/example1.html', 'dist/example/example1.html'
 
   # copy lib
-  cp 'lib/jquery-1.3.2.min.js', 'dist/lib/jquery-1.3.2.min.js'
+  cp 'lib/jquery-1.4.min.js', 'dist/lib/jquery-1.4.min.js'
   cp 'lib/GPL-LICENSE.txt', 'dist/lib/GPL-LICENSE.txt'
   cp 'lib/MIT-LICENSE.txt', 'dist/lib/MIT-LICENSE.txt'
   

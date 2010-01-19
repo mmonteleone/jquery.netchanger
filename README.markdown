@@ -3,8 +3,6 @@ jQuery.netchanger
 simple extensions to the DOM onchange event  
 [http://github.com/mmonteleone/jquery.netchanger][0]
 
-**Support for jQuery's 1.4's now usable live() event coming soon.**
-
 What?
 ----
 
@@ -34,12 +32,19 @@ Simply download [jquery.netchanger.js][7] and include it.
 
 Alternatively, you can download the [zipped release][8] containing a minified build with examples and documentation or the development master with unit tests by cloning `git://github.com/mmonteleone/jquery.netchanger.git`.
 
-jQuery.netchanger requires only [jquery][3] 1.3.2, and can be installed thusly:
+jQuery.netchanger requires only [jquery][3] 1.3.2 or higher, and can be installed thusly:
 
-    <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="jquery-1.4.min.js"></script>
     <script type="text/javascript" src="jquery.netchanger.min.js"></script>
 
 jQuery.netchanger includes a full unit test suite, and has been verified to work against Firefox 3.5, Safari 4, Internet Explorer 6,7,8, Chrome, and Opera 9 and 10.  Please feel free to test its suite against other browsers.
+
+jQuery 1.4 Bonus
+----------------
+
+Netchanger works great with jQuery 1.3, but it's even better with 1.4.  When used with jQuery 1.4, jQuery.netchanger automatically assumes monitoring fields via `.live()` instead of `.bind()`, allowing for client code to bind to `netchange`,`refreshchange`, and `revertchange` via `.live()` instead of `.bind()` as well.
+
+This behavior can be overridden by specifying the 'live' option.
 
 Complete API
 ------------
@@ -64,6 +69,8 @@ is an alias for `$('input,select,textarea,fileupload').netchanger(options);`
   * *default*: `'input,select,textarea,fileupload'`
 * **events**: events on which to check for changes to the control, and possibly raise own events.
   * *default*: `'change,keyup,paste'`
+* **live**: whether to monitor fields via `live` instead of `bind`, allowing for live binding of `netchange`, `revertchange`, and `refreshchange` by calling code.  
+  * *default*: `true` when using jQuery 1.4 or greater.  `false` otherwise.  Passing `true` without jQuery 1.4 or greater throws an exception.
 
 ### Events
 
@@ -125,6 +132,7 @@ The following build tasks are available:
 Changelog
 ---------
 
+* 0.9.1 - Added support for new 'live' option in conjunction with new jQuery 1.4 support
 * 0.9.0 - Initial Release
 
 License
