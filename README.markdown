@@ -3,8 +3,6 @@ jQuery.netchanger
 simple extensions to the DOM onchange event  
 [http://github.com/mmonteleone/jquery.netchanger][0]
 
-**Support for jQuery's 1.4's now usable live() event coming soon.**
-
 What?
 ----
 
