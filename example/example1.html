@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>jQuery.netchanger Example</title>
+
+	<script src="../lib/jquery-1.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../jquery.netchanger.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript" charset="utf-8">
+	$(function(){
+	    $('input,select').netchanger()  // set up inputs to raise netchange events
+	        .live('netchange',function(){
+	            $(this).addClass('modified');	            
+	        })
+	        .live('revertchange',function(){
+	            $(this).removeClass('modified');	            
+	        })
+	        .live('refreshchange',function(){
+	            $(this).removeClass('modified');	            
+	        });
+	        
+        $('#clone').click(function(){
+	        $('div.inputs').first().clone().appendTo($('form'));
+	        return false;
+	    });
+        $('#revert').click(function(){
+	        $('input,select').revertchange();
+	        return false;
+	    });
+        $('#refresh').click(function(){
+	        $('input,select').refreshchange();
+	        return false;
+	    });
+	    
+	});
+	</script>
+	
+	<style type="text/css" media="screen">
+	.modified {
+	    background-color: red;
+	}
+	</style>
+</head>
+
+<body>
+
+<h1>jQuery.netchanger Example 1</h1>
+
+<p>Try changing a value and notice how its bg color changes.  Change it back, and color should change back.</p>
+
+<p>Try adding more items via clone link.  When jQuery 1.4 is included, netchanger events are raised based on live monitoring of the document, so cloned fields also raise events.</p>
+
+<p>Try reverting any currently changed values back to their originals by clicking 'revert'</p>
+
+<p>Try refreshing fields to now use their current values as their new 'initial' values by clicking refresh</p>
+
+<form>
+<div class="inputs">
+    <input type="text" value="something">
+    <select name="some_name">
+        <option value="option1">option1</option>
+        <option value="option2" selected="selected">option2</option>    
+        <option value="option3">option3</option>    
+    </select>
+</div>
+</form>
+
+<a href="#" id="clone">clone</a>
+<a href="#" id="revert">revert</a>
+<a href="#" id="refresh">refresh</a>
+
+</body>
+</html>

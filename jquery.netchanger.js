@@ -1,7 +1,7 @@
 /**
  * jQuery.netchanger - rich extension to the DOM onchange event
  *
- * version 0.9.0
+ * version 0.9.1
  * 
  * http://michaelmonteleone.net/projects/netchanger
  * http://github.com/mmonteleone/jquery.netchanger
@@ -10,38 +10,37 @@
  * Licensed under terms of the MIT License (README.markdown)
  */
 (function($){
-    var notdefined;
-    var valueKey = 'netchanger.initialvalue';
-    
-    /**
-     * Extension to the jQuery.fn.val
-     * Intelligently compares values based on type of input
-     * @param {jQuery} elm selection of elements
-     * @param {Object} val when passed, sets value as current value of input
-     */
-    var value = function(elm, val) {
-        // setting
-        if(val) {
-            // checked inputs set their checked statuses
-            // baed on true/false of val
-            if(elm.is("input:checkbox,input:radio")) {
-                return val ?
-                    elm.attr('checked','checked') :
-                    elm.removeAttr('checked');
+    var valueKey = 'netchanger.initialvalue',
+        currentJqSupportsLive = Number($.fn.jquery.split('.').slice(0,2).join('.')) >= 1.4,    
+        /**
+         * Extension to the jQuery.fn.val
+         * Intelligently compares values based on type of input
+         * @param {jQuery} elm selection of elements
+         * @param {Object} val when passed, sets value as current value of input
+         */
+        value = function(elm, val) {
+            // setting
+            if(val !== undefined) {
+                // checked inputs set their checked statuses
+                // baed on true/false of val
+                if(elm.is("input:checkbox,input:radio")) {
+                    return val ?
+                        elm.attr('checked','checked') :
+                        elm.removeAttr('checked');
+                } else {
+                    return elm.val(val);                
+                }
+            // getting
             } else {
-                return elm.val(val);                
+                // checked inputs return true/false 
+                // based on checked status
+                if(elm.is("input:checkbox,input:radio")) {
+                    return elm.is(":checked");
+                } else {
+                    return elm.val();
+                }
             }
-        // getting
-        } else {
-            // checked inputs return true/false 
-            // based on checked status
-            if(elm.is("input:checkbox,input:radio")) {
-                return elm.is(":checked");
-            } else {
-                return elm.val();
-            }
-        }
-    };
+        };
 
     $.fn.extend({
         /**
@@ -51,31 +50,23 @@
          */
         netchanger: function(options){
             var settings = $.extend({}, $.netchanger.defaults, options || {});
-            
-            return this.each(function(){    
-                var elm = $(this);
-                var existingValue = elm.data(valueKey);
-                // only set up netchanger on matched inputs that 
-                // haven't already had netchanger applied to them
-                if(existingValue === notdefined) {
-                    // capture current (initial) value
-                    elm.data(valueKey,value(elm));
-                    $.each(settings.events.split(','), function(i, eventName) {
-                        // bind to all specified events
-                        // to check the current value and raise custom events
-                        // when necessary
-                        elm.bind(eventName,function(){
-                            var initialValue = elm.data(valueKey);
-                            if(value(elm) !== initialValue) {
-                                elm.trigger('netchange');
-                            }
-                            if(value(elm) === initialValue) {
-                                elm.trigger('revertchange');
-                            }
-                        });
-                    });
-                }
-            });
+            if(!currentJqSupportsLive && settings.live) {
+                throw("can't do that!");
+            }
+
+            // lazily bind the events to watch only after 
+            // the inputs have been focused in.  saves initiation time.
+            return this[settings.live ? 'live' : 'bind'](
+                settings.live ? 'focusin' : 'focus', function(){
+                    var elm = $(this);
+                    if(elm.data(valueKey) === undefined) {
+                       elm.data(valueKey, value(elm))
+                          .bind(settings.events.replace(/,/g,' '), function(){
+                              elm.trigger(value(elm) !== elm.data(valueKey) ? 
+                                  'netchange' : 'revertchange');
+                          });
+                    } 
+                });            
         },
             
         /**
@@ -95,7 +86,7 @@
                     // sets input back to initial value and triggers change
                     // which thus triggers a revertchange
                     var element = $(this);
-                    if(element.data(valueKey) !== notdefined &&
+                    if(element.data(valueKey) !== undefined &&
                         element.data(valueKey) !== value(element)) {
                         value(element,element.data(valueKey));
                         element.change();
@@ -115,12 +106,13 @@
         refreshchange: function(handler) {
             return handler ? 
                 this.bind('refreshchange', handler) :
-                this.each(function(){
+                this.each(function(){                    
                     // if values are effectively different,
                     // sets initial of input to current value
                     // and raises refreshchange event
                     var element = $(this);
-                    if(element.data(valueKey) !== notdefined && element.data(valueKey) !== value(element)) {
+                    if(element.data(valueKey) !== undefined && 
+                        element.data(valueKey) !== value(element)) {                        
                         element.data(valueKey,value(element));
                         element.trigger('refreshchange');
                     }
@@ -154,8 +146,10 @@
     });
 
     $.extend($.netchanger,{
-        version: '0.9.0',
+        version: '0.9.1',
         defaults: {
+            // defaults to live handling when in jq 1.4
+            live: currentJqSupportsLive,
             selector: 'input,select,textarea,fileupload',
             events: 'change,keyup,paste'
         }
