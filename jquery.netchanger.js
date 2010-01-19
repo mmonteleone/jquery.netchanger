@@ -51,7 +51,7 @@
         netchanger: function(options){
             var settings = $.extend({}, $.netchanger.defaults, options || {});
             if(!currentJqSupportsLive && settings.live) {
-                throw("can't do that!");
+                throw("Use of the live option requires jQuery 1.4 or greater");
             }
 
             // lazily bind the events to watch only after 

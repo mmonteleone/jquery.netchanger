@@ -136,7 +136,7 @@ QUnit.specify("jQuery.netchanger", function() {
                 } else {
                     assert(function(){
                         $.netchanger($.extend({},opts,{live:true}));
-                    }).throwsException();
+                    }).throwsException('Use of the live option requires jQuery 1.4 or greater');
                 }
             });
 
