@@ -34,7 +34,7 @@ Alternatively, you can download the [zipped release][8] containing a minified bu
 
 jQuery.netchanger requires only [jquery][3] 1.3.2 or higher, and can be installed thusly:
 
-    <script type="text/javascript" src="jquery-1.4.min.js"></script>
+    <script type="text/javascript" src="jquery-1.4.1.min.js"></script>
     <script type="text/javascript" src="jquery.netchanger.min.js"></script>
 
 jQuery.netchanger includes a full unit test suite, and has been verified to work against Firefox 3.5, Safari 4, Internet Explorer 6,7,8, Chrome, and Opera 9 and 10.  Please feel free to test its suite against other browsers.
