@@ -37,9 +37,9 @@ jQuery.netchanger requires only [jquery][3] 1.3.2 or higher, and can be installe
     <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
     <script type="text/javascript" src="jquery.netchanger.min.js"></script>
     
-Netchange is compatible with the 1.4 branch of jQuery, excluding 1.4.2 due to a regression in 1.4.2.
-
 jQuery.netchanger includes a full unit test suite, and has been verified to work against Firefox 3.5, Safari 4, Internet Explorer 6,7,8, Chrome, and Opera 9 and 10.  Please feel free to test its suite against other browsers.
+
+**1.4.2 Warning**: While netchanger supports jQuery 1.4.*, it breaks on a regression in 1.4.2.  jQuery 1.4.3 will resolve this.  The current state of 1.4.3 prerelease is included.
 
 jQuery 1.4 Bonus
 ----------------
