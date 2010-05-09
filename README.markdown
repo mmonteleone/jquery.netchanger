@@ -132,7 +132,7 @@ The following build tasks are available:
 Changelog
 ---------
 
-* 0.9.2 - Added workaround for the still-outstanding (issue)[http://dev.jquery.com/ticket/6166] in jQuery 1.4.2
+* 0.9.2 - Added workaround for the still-outstanding [issue](http://dev.jquery.com/ticket/6166) in jQuery 1.4.2, thereby giving netchanger full jQuery 1.4.2 compatibility
 * 0.9.1 - Added support for new 'live' option in conjunction with new jQuery 1.4 support
 * 0.9.0 - Initial Release
 
