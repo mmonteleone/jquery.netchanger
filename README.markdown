@@ -34,12 +34,10 @@ Alternatively, you can download the [zipped release][8] containing a minified bu
 
 jQuery.netchanger requires only [jquery][3] 1.3.2 or higher, and can be installed thusly.
 
-    <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="jquery.netchanger.min.js"></script>
     
 jQuery.netchanger includes a full unit test suite, and has been verified to work against Firefox 3.5, Safari 4, Internet Explorer 6,7,8, Chrome, and Opera 9 and 10.  Please feel free to test its suite against other browsers.
-
-**1.4.2 Warning**: While netchanger supports jQuery 1.4.*, it breaks on a regression in 1.4.2.  jQuery 1.4.3 will resolve this.  The current state of 1.4.3 prerelease is included.
 
 jQuery 1.4 Bonus
 ----------------
@@ -134,6 +132,7 @@ The following build tasks are available:
 Changelog
 ---------
 
+* 0.9.2 - Added workaround for the still-outstanding (issue)[http://dev.jquery.com/ticket/6166] in jQuery 1.4.2
 * 0.9.1 - Added support for new 'live' option in conjunction with new jQuery 1.4 support
 * 0.9.0 - Initial Release
 

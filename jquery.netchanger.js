@@ -1,7 +1,7 @@
 /**
  * jQuery.netchanger - rich extension to the DOM onchange event
  *
- * version 0.9.1
+ * version 0.9.2
  *
  * http://michaelmonteleone.net/projects/netchanger
  * http://github.com/mmonteleone/jquery.netchanger
@@ -20,7 +20,7 @@
          */
         value = function(elm, val) {
             // setting
-            if(val !== undefined) {
+            if(typeof val !== "undefined") {
                 // checked inputs set their checked statuses
                 // baed on true/false of val
                 if(elm.is("input:checkbox,input:radio")) {
@@ -59,7 +59,8 @@
             return this[settings.live ? 'live' : 'bind'](
                 settings.live ? 'focusin' : 'focus', function(){
                     var elm = $(this);
-                    if(elm.data(valueKey) === undefined) {
+                    // if(typeof elm.data(valueKey) === "undefined") {
+                    if(elm.data(valueKey) === null || typeof elm.data(valueKey) === "undefined") {
                        elm.data(valueKey, value(elm))
                           .bind(settings.events.replace(/,/g,' '), function(){
                               elm.trigger(value(elm) !== elm.data(valueKey) ?
@@ -86,7 +87,7 @@
                     // sets input back to initial value and triggers change
                     // which thus triggers a revertchange
                     var element = $(this);
-                    if(element.data(valueKey) !== undefined &&
+                    if(element.data(valueKey) !== null && typeof element.data(valueKey) !== "undefined" &&
                         element.data(valueKey) !== value(element)) {
                         value(element,element.data(valueKey));
                         element.change();
@@ -111,7 +112,7 @@
                     // sets initial of input to current value
                     // and raises refreshchange event
                     var element = $(this);
-                    if(element.data(valueKey) !== undefined &&
+                    if(typeof element.data(valueKey) !== "undefined" &&
                         element.data(valueKey) !== value(element)) {
                         element.data(valueKey,value(element));
                         element.trigger('refreshchange');

@@ -659,7 +659,7 @@ QUnit.specify("jQuery.netchanger", function() {
 
                     $('#text1').trigger(focusEvent).val('newval');
                     $('input').revertchange();
-
+                    
                     assert($('#text1').val()).equals('val1');
                     assert($('#text2').val()).equals('val2');
                 });
@@ -719,7 +719,7 @@ QUnit.specify("jQuery.netchanger", function() {
      * Assumes they have each been loaded and set to notConflict(true)
      * aliased as jq14, jq13, etc.
      */
-    each(["1.3.2","1.4.1","1.4.3"], function(version) {
+    each(["1.3.2","1.4.1","1.4.2"], function(version) {
         describe("in jQ " + version, function(){
             $ = jQuery = window['jq_' + version.replace(/\./g,'_')];
             specification();                    
